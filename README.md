@@ -1,3 +1,17 @@
+**Forked from `chatgpt_rs` for [Anyscale API](https://app.endpoints.anyscale.com/).**
+
+Anyscale API's SSE stream is missing a newline before 'data:'. Fixed with ducktape, subject to break if the API gets fixed / changed:
+```rust
+    let response_stream = response.bytes_stream().map(|result_b| {
+        result_b.map(|b| {
+            let s = String::from_utf8_lossy(&b).into_owned();
+            // Add newline before 'data:'
+            let modified = s.replacen("data:", "\ndata:", 1);
+            Bytes::from(modified)
+        })
+    }).eventsource();
+```
+
 # ChatGPT-rs
 
 This library is an asynchronous Rust wrapper over the OpenAI ChatGPT API.

@@ -302,11 +302,10 @@ impl ChatGPT {
                     result_b.map(|b| {
                         let s = String::from_utf8_lossy(&b).into_owned();
                         // Add newline before 'data:'
-                        let modified = s.replace("data:", "\ndata:");
+                        let modified = s.replacen("data:", "\ndata:", 1);
                         Bytes::from(modified)
                     })
-                });
-                let response_stream = response_stream.eventsource();
+                }).eventsource();
 
                 response_stream.map(move |part| {
                     let chunk = &part.expect("Stream closed abruptly!").data;
