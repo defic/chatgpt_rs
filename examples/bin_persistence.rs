@@ -1,6 +1,6 @@
 use std::env::args;
 
-use chatgpt::prelude::*;
+use anyscale_llama::prelude::*;
 
 /// Requires the `postcard` crate feature
 #[tokio::main]

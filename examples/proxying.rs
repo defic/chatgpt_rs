@@ -1,6 +1,6 @@
 use std::{env::args, str::FromStr};
 
-use chatgpt::prelude::*;
+use anyscale_llama::prelude::*;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -14,7 +14,7 @@ async fn main() -> Result<()> {
         ModelConfigurationBuilder::default()
             .api_url(Url::from_str("https://api.pawan.krd/v1/chat/completions").unwrap())
             .temperature(1.0)
-            .engine(ChatGPTEngine::Gpt4_32k)
+            .engine(ChatGPTEngine::Llama_2_70b_chat_hf)
             .build()
             .unwrap(),
     )?;

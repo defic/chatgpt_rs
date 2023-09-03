@@ -1,6 +1,6 @@
 use std::env::args;
 
-use chatgpt::prelude::*;
+use anyscale_llama::prelude::*;
 use futures_util::StreamExt;
 use std::io::{stdout, Write};
 

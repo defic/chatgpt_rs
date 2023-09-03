@@ -289,6 +289,7 @@ impl ChatGPT {
     fn process_streaming_response(
         response: Response,
     ) -> crate::Result<impl Stream<Item = ResponseChunk>> {
+        use bytes::Bytes;
         use eventsource_stream::Eventsource;
         use futures_util::StreamExt;
 
@@ -296,7 +297,17 @@ impl ChatGPT {
         response
             .error_for_status()
             .map(|response| {
-                let response_stream = response.bytes_stream().eventsource();
+
+                let response_stream = response.bytes_stream().map(|result_b| {
+                    result_b.map(|b| {
+                        let s = String::from_utf8_lossy(&b).into_owned();
+                        // Add newline before 'data:'
+                        let modified = s.replace("data:", "\ndata:");
+                        Bytes::from(modified)
+                    })
+                });
+                let response_stream = response_stream.eventsource();
+
                 response_stream.map(move |part| {
                     let chunk = &part.expect("Stream closed abruptly!").data;
                     if chunk == "[DONE]" {

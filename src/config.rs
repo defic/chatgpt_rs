@@ -39,7 +39,7 @@ impl Default for ModelConfiguration {
             presence_penalty: 0.0,
             frequency_penalty: 0.0,
             reply_count: 1,
-            api_url: url::Url::from_str("https://api.openai.com/v1/chat/completions").unwrap(),
+            api_url: url::Url::from_str("https://api.endpoints.anyscale.com/v1").unwrap(),
             #[cfg(feature = "functions")]
             function_validation: FunctionValidationStrategy::default(),
         }
@@ -52,17 +52,13 @@ impl Default for ModelConfiguration {
 pub enum ChatGPTEngine {
     /// Standard engine: `gpt-3.5-turbo`
     #[default]
-    Gpt35Turbo,
+    Llama_2_7b_chat_hf,
     /// Different version of standard engine: `gpt-3.5-turbo-0301`
-    Gpt35Turbo_0301,
+    Llama_2_13b_chat_hf,
     /// Base GPT-4 model: `gpt-4`
-    Gpt4,
+    Llama_2_70b_chat_hf,
     /// Version of GPT-4, able to remember 32,000 tokens: `gpt-4-32k`
-    Gpt4_32k,
-    /// Different version of GPT-4: `gpt-4-0314`
-    Gpt4_0314,
-    /// Different version of GPT-4, able to remember 32,000 tokens: `gpt-4-32k-0314`
-    Gpt4_32k_0314,
+    CodeLlama_34b_Instruct_hf,
     /// Custom (or new/unimplemented) version of ChatGPT
     Custom(&'static str),
 }
@@ -76,12 +72,10 @@ impl Display for ChatGPTEngine {
 impl AsRef<str> for ChatGPTEngine {
     fn as_ref(&self) -> &'static str {
         match self {
-            ChatGPTEngine::Gpt35Turbo => "gpt-3.5-turbo",
-            ChatGPTEngine::Gpt35Turbo_0301 => "gpt-3.5-turbo-0301",
-            ChatGPTEngine::Gpt4 => "gpt-4",
-            ChatGPTEngine::Gpt4_32k => "gpt-4-32k",
-            ChatGPTEngine::Gpt4_0314 => "gpt-4-0314",
-            ChatGPTEngine::Gpt4_32k_0314 => "gpt-4-32k-0314",
+            ChatGPTEngine::Llama_2_7b_chat_hf => "meta-llama/Llama-2-7b-chat-hf",
+            ChatGPTEngine::Llama_2_13b_chat_hf => "meta-llama/Llama-2-13b-chat-hf",
+            ChatGPTEngine::Llama_2_70b_chat_hf => "meta-llama/Llama-2-70b-chat-hf",
+            ChatGPTEngine::CodeLlama_34b_Instruct_hf => "codellama/CodeLlama-34b-Instruct-hf",
             ChatGPTEngine::Custom(custom) => custom,
         }
     }
