@@ -1,4 +1,4 @@
-**Forked from `chatgpt_rs` for [Anyscale API](https://app.endpoints.anyscale.com/).**
+**Forked from `chatgpt_rs` to work with [Anyscale API](https://app.endpoints.anyscale.com/) Llama 2.**
 
 Anyscale API's SSE stream is missing a newline before 'data:'. Fixed with ducktape, subject to break if the API gets fixed / changed:
 ```rust
